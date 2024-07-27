@@ -8,6 +8,7 @@ import { useProjectStore } from '@/stores/project'
 import ProjectTableHeaderCell from '@/components/ProjectTableHeaderCell.vue'
 import ProjectTableCell from '@/components/ProjectTableCell.vue'
 import {useProjectChannel} from '@/composables/useProjectChannel'
+import CommandCenter from './CommandCenter.vue'
 
 const props = defineProps<{
   workspaceId: string
@@ -57,6 +58,8 @@ watch(() => authTokenStore.token, async (newTokenValue) => {
       <div>Log onto Go and paste your auth token here for the page to work:</div>
       <input aria-label="Auth token" type="text" v-model="authTokenStore.token" />
     </div>
+
+    <CommandCenter />
 
     <table class="grid table-grid" role="grid" v-if="projectStore.project"
       :style="{ gridTemplateColumns: `repeat(${projectStore.project.properties.length + 1}, 1fr)` }">
