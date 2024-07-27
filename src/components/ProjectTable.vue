@@ -58,16 +58,16 @@ watch(() => authTokenStore.token, async (newTokenValue) => {
       <input aria-label="Auth token" type="text" v-model="authTokenStore.token" />
     </div>
 
-    <table class="grid" role="grid" v-if="projectStore.project"
-      :style="{ gridTemplateColumns: `repeat(${projectStore.project.properties.length}, 1fr)` }">
-      <thead>
-        <th />
+    <table class="grid table-grid" role="grid" v-if="projectStore.project"
+      :style="{ gridTemplateColumns: `repeat(${projectStore.project.properties.length + 1}, 1fr)` }">
+      <thead class="grid-header">
+        <th>Navigate</th>   
         <ProjectTableHeaderCell v-for="property, index in projectStore.project.properties" 
           :key="property.id"
           :property-name="property.name" 
           :column-index="index" />
       </thead>
-      <tbody>
+      <tbody class="grid-body">
         <tr v-for="entity, entityIndex in entityStore.entities" :key="entity.id">
           <td tabindex="0">
             <RouterLink :to="{
@@ -100,6 +100,24 @@ watch(() => authTokenStore.token, async (newTokenValue) => {
   gap: 1rem;
   min-height: 100vh;
   padding: 0.5rem;
+}
+
+.table-grid {
+  grid-template-areas: 
+  "header"
+  "body";
+}
+.grid-header {
+  grid-area: header;
+  display: contents;
+}
+.grid-body {
+  grid-area: body;
+  display: contents;
+}
+
+tr {
+  display: contents;
 }
 
 .auth-token-config {
