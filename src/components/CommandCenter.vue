@@ -23,6 +23,7 @@ const props = defineProps<{
 // State
 const query = ref("");
 const isVisible = ref(false);
+const isComponentActive = ref(false);
 const target = ref(null);
 const inputRef = ref(null);
 const commandRefs = ref<(Element | ComponentPublicInstance | null)[]>([]);
@@ -69,18 +70,22 @@ const commandsComponentMap = computed(() => {
 function createNewProject() {
   console.log("Creating new project");
   selectedAction.value = "create-project";
+  isComponentActive.value = true;
 }
 function addNewProperty() {
   console.log("Adding new property");
   selectedAction.value = "add-property";
+  isComponentActive.value = true;
 }
 function exportProject() {
   console.log("Exporting project");
   selectedAction.value = "export-project";
+  isComponentActive.value = true;
 }
 function deleteProperty() {
   console.log("Deleting property");
   selectedAction.value = "delete-property";
+  isComponentActive.value = true;
 }
 
 function openCommandPalette(event: KeyboardEvent) {
@@ -106,6 +111,7 @@ function closeCommandPalette(event: KeyboardEvent) {
 function onDone() {
   selectedAction.value = "";
   isVisible.value = false;
+  isComponentActive.value = false;
 }
 
 // Click outside
@@ -113,10 +119,11 @@ onClickOutside(target, () => {
   console.log("Closing command center");
   selectedAction.value = "";
   isVisible.value = false;
+  isComponentActive.value = false;
 });
 
 function handleKeyDown(event: KeyboardEvent) {
-  if (isVisible.value) {
+  if (isVisible.value && !isComponentActive.value) {
     const currentIndex = commandRefs.value.findIndex(ref => ref === document.activeElement);
     if (event.key === 'Tab') {
       event.preventDefault();
