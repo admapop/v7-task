@@ -2,9 +2,11 @@
 import { deleteProperty } from '@/backend/deleteProperty';
 import { useAuthTokenStore } from '@/stores/authToken';
 import { useProjectStore } from '@/stores/project';
+import { onMounted } from 'vue';
 import { ref } from 'vue'
 
 const property = ref('')
+const inputRef = ref<HTMLInputElement | null>(null)
 const emit = defineEmits(['done'])
 
 const authTokenStore = useAuthTokenStore()
@@ -21,6 +23,9 @@ async function handleDeleteProperty() {
 
   emit('done')
 }
+onMounted(() => {
+  inputRef.value?.focus()
+})
 </script>
 
 <template>

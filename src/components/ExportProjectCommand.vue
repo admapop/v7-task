@@ -2,9 +2,11 @@
 import { exportProject } from '@/backend/exportProject';
 import { useAuthTokenStore } from '@/stores/authToken';
 import { useProjectStore } from '@/stores/project';
+import { onMounted } from 'vue';
 import { ref } from 'vue'
 
 const projectName = ref('')
+const inputRef = ref<HTMLInputElement | null>(null)
 const emit = defineEmits(['done'])
 
 const authTokenStore = useAuthTokenStore()
@@ -23,6 +25,9 @@ async function handleExportProject() {
 
   emit('done')
 }
+onMounted(() => {
+  inputRef.value?.focus()
+})
 </script>
 
 <template>
