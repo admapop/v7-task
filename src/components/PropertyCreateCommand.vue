@@ -8,7 +8,7 @@ import { ref } from 'vue'
 const propertyName = ref('')
 const propertyDescription = ref('')
 const propertyTool = ref('')
-const emit = defineEmits(['created'])
+const emit = defineEmits(['done'])
 
 const authTokenStore = useAuthTokenStore()
 const projectStore = useProjectStore()
@@ -29,7 +29,7 @@ async function handleCreateProperty() {
     }
   })
 
-  emit('created')
+  emit('done')
 }
 </script>
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PropertyCreateCommand from "./PropertyCreateCommand.vue";
 import ProjectCreateCommand from "./ProjectCreateCommand.vue";
+import ExportProjectCommand from "./ExportProjectCommand.vue";
 import { onUnmounted, onMounted, ref, computed, markRaw, nextTick } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import type { Component, ComponentPublicInstance } from "vue";
@@ -48,7 +49,9 @@ const commands = ref<Command[]>([
   },
   {
     name: "Exporting a project",
-    command: () => console.log("Exporting a project"),
+    id: "export-project",
+    command: exportProject,
+    component: markRaw(ExportProjectCommand)
   },
 ]);
 
@@ -67,6 +70,10 @@ function createNewProject() {
 function addNewProperty() {
   console.log("Adding new property");
   selectedAction.value = "add-property";
+}
+function exportProject() {
+  console.log("Exporting project");
+  selectedAction.value = "export-project";
 }
 
 function openCommandPalette(event: KeyboardEvent) {
@@ -89,7 +96,7 @@ function closeCommandPalette(event: KeyboardEvent) {
 }
 
 // Emitter handlers
-function onCreated() {
+function onDone() {
   selectedAction.value = "";
   isVisible.value = false;
 }
@@ -162,7 +169,7 @@ onUnmounted(() => {
       </div>
     </template>
     <div v-if="selectedAction">
-      <component :is="commandsComponentMap[selectedAction]" @created="onCreated" />
+      <component :is="commandsComponentMap[selectedAction]" @done="onDone" />
     </div>
   </div>
 </template>
