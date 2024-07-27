@@ -59,7 +59,7 @@ watch(() => authTokenStore.token, async (newTokenValue) => {
       <input aria-label="Auth token" type="text" v-model="authTokenStore.token" />
     </div>
 
-    <CommandCenter />
+    <CommandCenter :workspace-id="workspaceId" :project-id="projectId" />
 
     <table class="grid table-grid" role="grid" v-if="projectStore.project"
       :style="{ gridTemplateColumns: `repeat(${projectStore.project.properties.length + 1}, 1fr)` }">
