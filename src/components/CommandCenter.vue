@@ -54,6 +54,10 @@ const commands = ref<Command[]>([
   },
 ]);
 
+const filteredCommands = computed(() => {
+  return commands.value.filter(command => command.name.toLowerCase().includes(query.value.toLowerCase()));
+});
+
 const commandsComponentMap = computed(() => {
   return commands.value.reduce((acc, command) => {
     acc[command.id] = command.component;
@@ -163,7 +167,8 @@ onUnmounted(() => {
       <div v-if="!selectedAction" class="mt-2">
         <p>Suggestions:</p>
         <ul>
-          <li v-for="(command, index) in commands" :key="command.name" :ref="el => commandRefs[index] = el"
+          <li v-if="filteredCommands.length === 0" class="text-gray-300">No commands found</li>
+          <li v-else v-for="(command, index) in filteredCommands" :key="command.name" :ref="el => commandRefs[index] = el"
             @click="command.command" class="cursor-pointer text-gray-300 hover:bg-slate-700 p-2 rounded-md"
             :tabindex="index">
             {{ command.name }}
