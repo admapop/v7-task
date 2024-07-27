@@ -34,6 +34,6 @@ async function handleDeleteProperty() {
       hover:bg-slate-800
       p-2
       rounded-md
-    ">Add property</button>
+    ">Delete property</button>
   </div>
 </template>
