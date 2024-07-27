@@ -2,6 +2,7 @@
 import PropertyCreateCommand from "./PropertyCreateCommand.vue";
 import ProjectCreateCommand from "./ProjectCreateCommand.vue";
 import ExportProjectCommand from "./ExportProjectCommand.vue";
+import DeletePropertyCommand from "./DeletePropertyCommand.vue";
 import { onUnmounted, onMounted, ref, computed, markRaw, nextTick } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import type { Component, ComponentPublicInstance } from "vue";
@@ -40,12 +41,10 @@ const commands = ref<Command[]>([
     component: markRaw(PropertyCreateCommand),
   },
   {
-    name: "Starting a chat within a project",
-    command: () => console.log("Starting a chat within a project"),
-  },
-  {
-    name: "Navigating to a specific row or property",
-    command: () => console.log("Navigating to a specific row or property"),
+    name: "Delete property",
+    id: "delete-property",
+    command: deleteProperty,
+    component: markRaw(DeletePropertyCommand),
   },
   {
     name: "Exporting a project",
@@ -74,6 +73,10 @@ function addNewProperty() {
 function exportProject() {
   console.log("Exporting project");
   selectedAction.value = "export-project";
+}
+function deleteProperty() {
+  console.log("Deleting property");
+  selectedAction.value = "delete-property";
 }
 
 function openCommandPalette(event: KeyboardEvent) {
