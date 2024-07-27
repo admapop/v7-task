@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PropertyCreateCommand from "./PropertyCreateCommand.vue";
+import ProjectCreateCommand from "./ProjectCreateCommand.vue";
 import { onUnmounted, onMounted, ref, computed, markRaw, nextTick } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import type { Component, ComponentPublicInstance } from "vue";
@@ -27,15 +28,14 @@ const selectedAction = ref("");
 const commands = ref<Command[]>([
   {
     name: "Create new project",
+    id: "create-project",
     command: createNewProject,
+    component: markRaw(ProjectCreateCommand),
   },
   {
     name: "Add new property",
     id: "add-property",
-    command: () => {
-      console.log("Adding new property");
-      selectedAction.value = "add-property";
-    },
+    command: addNewProperty,
     component: markRaw(PropertyCreateCommand),
   },
   {
@@ -62,6 +62,11 @@ const commandsComponentMap = computed(() => {
 // Command handlers
 function createNewProject() {
   console.log("Creating new project");
+  selectedAction.value = "create-project";
+}
+function addNewProperty() {
+  console.log("Adding new property");
+  selectedAction.value = "add-property";
 }
 
 function openCommandPalette(event: KeyboardEvent) {
@@ -78,6 +83,7 @@ function openCommandPalette(event: KeyboardEvent) {
 function closeCommandPalette(event: KeyboardEvent) {
   if (event.key === "Escape") {
     console.log("Closing command center");
+    selectedAction.value = "";
     isVisible.value = false;
   }
 }
@@ -91,6 +97,7 @@ function onCreated() {
 // Click outside
 onClickOutside(target, () => {
   console.log("Closing command center");
+  selectedAction.value = "";
   isVisible.value = false;
 });
 

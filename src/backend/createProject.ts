@@ -1,20 +1,18 @@
 import type { components } from "./api";
 import { API_BASE_URL } from "./constants";
-import type { Property } from "./types";
+import type { Project } from "./types";
 
-export const addProperty = async ({
+export const createProject = async ({
   authToken,
-  projectId,
   workspaceId,
   data,
 }: {
   workspaceId: string;
-  projectId: string;
   authToken: string;
-  data: components["schemas"]["Projects.AddPropertyRequest"];
+  data: components["schemas"]["Projects.CreateProjectRequest"];
 }) => {
   const res = await fetch(
-    `${API_BASE_URL}/workspaces/${workspaceId}/projects/${projectId}/properties`,
+    `${API_BASE_URL}/workspaces/${workspaceId}/projects`,
     {
       method: "POST",
       headers: {
@@ -25,7 +23,7 @@ export const addProperty = async ({
     }
   );
 
-  const addPropertyResponse = await res.json();
+  const createProjectResponse = await res.json();
 
-  return addPropertyResponse.data as Property;
+  return createProjectResponse.data as Project;
 };
